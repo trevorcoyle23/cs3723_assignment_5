@@ -1,0 +1,31 @@
+(defun removeNILTop (lst)
+	(remove 'NIL lst))
+
+(defun removeNILMost (lst)
+	(cond
+		((null lst) nil)
+		((atom lst) (if (eq lst 'NIL) nil lst))
+		(t
+			(let ((filtered (mapcar #'removeNILMost lst)))
+				(remove 'NIL filtered :test 'eq)))))
+
+(defun reverseTop (lst)
+	(if (null lst)
+		nil
+		(append (reverseTop (cdr lst)) (list (car lst)))))
+
+(defun reverseAll  (lst)
+	(cond
+		((null lst) nil)
+		((atom lst) lst)
+		(t (append (reverseAll (cdr lst)) (list (reverseAll (car lst)))))))
+
+(defun palindrome (lst)
+	(equal lst (reverseTop lst)))
+
+(defun removeNILAll (lst)
+	(cond
+		((null lst) nil)
+		((atom lst) (if (eq lst 'NIL) nil lst))
+		(t (let ((filtered (remove-if #'null (mapcar #'removeNILAll lst))))
+			(if (and (null filtered) (not (atom lst))) nil filtered)))))
